@@ -1,6 +1,6 @@
 # C8 Tools: tool calling and an MCP server
 
-Implemented the full tool loop and two read-only MCP tools: `get_lecture` (live course sheet) and `get_security_term` (local cybersecurity glossary). The loop handles direct answers, multiple tool requests, repeated rounds, malformed arguments, unknown tools, and a bounded number of rounds. Both entrypoints share the same lookup functions and tool descriptions.
+Implemented the full tool loop and two read-only MCP tools: `get_lecture` (live course sheet) and `get_security_term` (local cybersecurity glossary). The loop handles direct answers, multiple tool requests, repeated rounds, malformed arguments, unknown tools, and a bounded number of rounds. Both entrypoints share the same lookup functions and tool descriptions. The CLI also instructs the model to stick to returned tool facts and avoid inventing course details or acronym expansions.
 
 ## Run the completed implementation
 
@@ -35,8 +35,8 @@ Set `PORT` to change the local port. FastMCP Gateway imports `mcp_server.py:mcp`
 - Offline suite: 17 tests passed, covering tool-loop behavior, invalid requests, data errors, and MCP discovery/calls.
 - Live course sheet: Lecture 12 returned successfully.
 - Local HTTP MCP: discovery and both tool calls verified; a missing glossary term returned an explicit error.
-- Groq model evaluations: **not run yet** because no Groq key is configured. The two tables below show predictions, not invented observations.
-- Public MCP deployment: **pending Gateway account verification**. No deployed URL is claimed yet.
+- Groq model evaluations: **10/10 matched the expected tool selection**, using real Groq requests with both tool cards. Full answers, arguments, and tool results are recorded in `evaluation_results.json`. The latest answers were also reviewed against the returned data.
+- Public MCP deployment: **being configured on FastMCP Gateway**. The verified endpoint will be recorded here after deployment.
 
 ```bash
 python -m pytest -q
@@ -204,11 +204,11 @@ The model reads only the card. First fill in the middle column. Then run each qu
 <!-- lecture-evaluation:start -->
 | Question | Should it ask for the tool? | Did it? |
 |---|---|---|
-| When is Lecture 12 of 100xEngineers Cohort 8, and what is it about? | get_lecture | Not run: needs Groq key |
-| Which tools do we use in the seventh class? | get_lecture | Not run: needs Groq key |
-| What is an API? | No | Not run: needs Groq key |
-| Is session ten a combined one or separate? | get_lecture | Not run: needs Groq key |
-| In lecture 3 of Harvard CS50, which language is taught? | No | Not run: needs Groq key |
+| When is Lecture 12 of 100xEngineers Cohort 8, and what is it about? | get_lecture | get_lecture (matched) |
+| Which tools do we use in the seventh class? | get_lecture | get_lecture (matched) |
+| What is an API? | No | No (matched) |
+| Is session ten a combined one or separate? | get_lecture | get_lecture (matched) |
+| In lecture 3 of Harvard CS50, which language is taught? | No | No (matched) |
 <!-- lecture-evaluation:end -->
 
 ```bash
@@ -307,11 +307,11 @@ Do it once more with data you care about: your own Google Sheet, a CSV file, a S
 <!-- glossary-evaluation:start -->
 | Question | Should it ask for the tool? | Did it? |
 |---|---|---|
-| According to my project glossary, what is MFA? Give its example. | get_security_term | Not run: needs Groq key |
-| Look up SIEM in my cybersecurity study notes. | get_security_term | Not run: needs Groq key |
-| What does the project glossary say about least privilege? | get_security_term | Not run: needs Groq key |
-| Does my project glossary contain quantum firewall? | get_security_term | Not run: needs Groq key |
-| What is 2 + 2? | No | Not run: needs Groq key |
+| According to my project glossary, what is MFA? Give its example. | get_security_term | get_security_term (matched) |
+| Look up SIEM in my cybersecurity study notes. | get_security_term | get_security_term (matched) |
+| What does the project glossary say about least privilege? | get_security_term | get_security_term (matched) |
+| Does my project glossary contain quantum firewall? | get_security_term | get_security_term (matched) |
+| What is 2 + 2? | No | No (matched) |
 <!-- glossary-evaluation:end -->
 
 ## Submit it

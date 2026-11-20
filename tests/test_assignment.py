@@ -41,7 +41,7 @@ def test_multiple_tools_return_matching_ids_before_next_model_turn():
     result = tool_call.run_question("Look up MFA and SIEM in my glossary.", model=model)
     assert result["answer"] == "Both entries found."
     assert len(result["tool_calls"]) == 2
-    assert turns[1][1]["tool_calls"] == calls
+    assert turns[1][2]["tool_calls"] == calls
 
 
 def test_loop_handles_more_than_one_round():

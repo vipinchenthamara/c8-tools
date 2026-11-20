@@ -10,6 +10,13 @@ from lookups import LECTURE_DESCRIPTION, SECURITY_DESCRIPTION, lookup_lecture, l
 
 load_dotenv(Path(__file__).with_name(".env"))
 DEFAULT_QUESTION = "When is Lecture 12 of 100xEngineers Cohort 8, and what is it about?"
+SYSTEM_PROMPT = (
+    "For answers based on tool results, report only facts returned by the tools. "
+    "Do not invent extra course content or expand abbreviations not defined in the results. "
+    "If a tool reports an error or missing entry, explain that instead of guessing. "
+    "For other courses, ask which course year/version the user means rather than "
+    "guessing a lecture's content. Keep answers concise."
+)
 
 
 def get_lecture(number: int) -> dict:
@@ -84,7 +91,8 @@ def execute_tool(call):
 def run_question(question, *, model=None, on_tool=None, max_rounds=8):
     """Run every requested tool, then ask again until there is a final answer."""
     model = model or ask_model
-    messages = [{"role": "user", "content": question}]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": question}]
     calls = []
     reply = model(messages, TOOLS)
     rounds = 0

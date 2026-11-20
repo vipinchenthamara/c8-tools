@@ -1,0 +1,208 @@
+{
+  "run_at_utc": "2026-11-20T05:14:06.457302+00:00",
+  "model": "openai/gpt-oss-120b",
+  "results": [
+    {
+      "group": "lecture",
+      "question": "When is Lecture 12 of 100xEngineers Cohort 8, and what is it about?",
+      "expected_tools": [
+        "get_lecture"
+      ],
+      "answer": "Lecture 12 of the 100xEngineers Cohort 8 runs on **Saturday 14 November 2026**. It is a **separate practical** titled **“Building with tool calling and MCP.”** The session uses **Python, Groq, and FastMCP**.",
+      "tool_calls": [
+        {
+          "name": "get_lecture",
+          "arguments": "{\"number\":12}",
+          "result": {
+            "date": "Sat 14 Nov 2026",
+            "title": "12. Building with tool calling and MCP",
+            "type": "separate practical",
+            "tools": "Python, Groq, FastMCP"
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_lecture"
+      ],
+      "matched": true
+    },
+    {
+      "group": "lecture",
+      "question": "Which tools do we use in the seventh class?",
+      "expected_tools": [
+        "get_lecture"
+      ],
+      "answer": "In the seventh class we use **FastAPI** and **Supabase**.",
+      "tool_calls": [
+        {
+          "name": "get_lecture",
+          "arguments": "{\"number\":7}",
+          "result": {
+            "date": "Fri 16 Oct 2026",
+            "title": "7. Connect backend to database",
+            "type": "separate practical",
+            "tools": "FastAPI, Supabase"
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_lecture"
+      ],
+      "matched": true
+    },
+    {
+      "group": "lecture",
+      "question": "What is an API?",
+      "expected_tools": [],
+      "answer": "An API (Application Programming Interface) is a set of rules and protocols that allows different software applications to communicate with each other. It defines how requests are formatted, how data is exchanged, and what responses look like, enabling developers to use functionality from other services or libraries without needing to understand their internal implementation.",
+      "tool_calls": [],
+      "observed_tools": [],
+      "matched": true
+    },
+    {
+      "group": "lecture",
+      "question": "Is session ten a combined one or separate?",
+      "expected_tools": [
+        "get_lecture"
+      ],
+      "answer": "Session ten is a **combined theory** session.",
+      "tool_calls": [
+        {
+          "name": "get_lecture",
+          "arguments": "{\"number\":10}",
+          "result": {
+            "date": "Sat 31 Oct 2026",
+            "title": "10. Tool calling and MCP",
+            "type": "combined theory",
+            "tools": "None"
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_lecture"
+      ],
+      "matched": true
+    },
+    {
+      "group": "lecture",
+      "question": "In lecture 3 of Harvard CS50, which language is taught?",
+      "expected_tools": [],
+      "answer": "Which edition or year of Harvard CS50 are you referring to?",
+      "tool_calls": [],
+      "observed_tools": [],
+      "matched": true
+    },
+    {
+      "group": "glossary",
+      "question": "According to my project glossary, what is MFA? Give its example.",
+      "expected_tools": [
+        "get_security_term"
+      ],
+      "answer": "**MFA (Multi‑factor authentication)**  \n- **Category:** Identity  \n- **Definition:** Authentication that requires evidence from at least two different factor types: something you know, have, or are.  \n- **Example:** Signing in with a password (something you know) and a hardware security key (something you have).",
+      "tool_calls": [
+        {
+          "name": "get_security_term",
+          "arguments": "{\"term\":\"MFA\"}",
+          "result": {
+            "term": "Multi-factor authentication",
+            "category": "Identity",
+            "definition": "Authentication that requires evidence from at least two different factor types: something you know, have, or are.",
+            "example": "Signing in with a password and a hardware security key."
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_security_term"
+      ],
+      "matched": true
+    },
+    {
+      "group": "glossary",
+      "question": "Look up SIEM in my cybersecurity study notes.",
+      "expected_tools": [
+        "get_security_term"
+      ],
+      "answer": "**SIEM**  \n- **Category:** Monitoring  \n- **Definition:** A system that collects and correlates security logs to help detect and investigate suspicious activity.  \n- **Example:** Correlating repeated failed sign‑ins with a later successful sign‑in from an unusual source.",
+      "tool_calls": [
+        {
+          "name": "get_security_term",
+          "arguments": "{\"term\":\"SIEM\"}",
+          "result": {
+            "term": "Security information and event management",
+            "category": "Monitoring",
+            "definition": "A system that collects and correlates security logs to help detect and investigate suspicious activity.",
+            "example": "Correlating repeated failed sign-ins with a later successful sign-in from an unusual source."
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_security_term"
+      ],
+      "matched": true
+    },
+    {
+      "group": "glossary",
+      "question": "What does the project glossary say about least privilege?",
+      "expected_tools": [
+        "get_security_term"
+      ],
+      "answer": "**Glossary entry – Least Privilege**  \n\n- **Category:** Access control  \n- **Definition:** Granting only the permissions needed for a task and only for as long as needed.  \n- **Example:** Giving a reporting account read access instead of database administrator access.",
+      "tool_calls": [
+        {
+          "name": "get_security_term",
+          "arguments": "{\"term\":\"least privilege\"}",
+          "result": {
+            "term": "Least privilege",
+            "category": "Access control",
+            "definition": "Granting only the permissions needed for a task and only for as long as needed.",
+            "example": "Giving a reporting account read access instead of database administrator access."
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_security_term"
+      ],
+      "matched": true
+    },
+    {
+      "group": "glossary",
+      "question": "Does my project glossary contain quantum firewall?",
+      "expected_tools": [
+        "get_security_term"
+      ],
+      "answer": "The glossary does not contain an entry for “quantum firewall.”",
+      "tool_calls": [
+        {
+          "name": "get_security_term",
+          "arguments": "{\"term\":\"quantum firewall\"}",
+          "result": {
+            "error": "No entry for 'quantum firewall' in the project glossary.",
+            "available_terms": [
+              "Multi-factor authentication",
+              "Security information and event management",
+              "Least privilege",
+              "Phishing",
+              "Encryption",
+              "Vulnerability",
+              "Patch management",
+              "Incident response"
+            ]
+          }
+        }
+      ],
+      "observed_tools": [
+        "get_security_term"
+      ],
+      "matched": true
+    },
+    {
+      "group": "glossary",
+      "question": "What is 2 + 2?",
+      "expected_tools": [],
+      "answer": "2 + 2 = 4.",
+      "tool_calls": [],
+      "observed_tools": [],
+      "matched": true
+    }
+  ]
+}
