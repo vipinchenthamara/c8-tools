@@ -1,3 +1,69 @@
+# C8 Tools: tool calling and an MCP server
+
+Implemented the full tool loop and two read-only MCP tools: `get_lecture` (live course sheet) and `get_security_term` (local cybersecurity glossary). The loop handles direct answers, multiple tool requests, repeated rounds, malformed arguments, unknown tools, and a bounded number of rounds. Both entrypoints share the same lookup functions and tool descriptions.
+
+## Run the completed implementation
+
+Use Python 3.12 or newer. The dependencies in `requirements.txt` are the versions verified locally.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env
+# Edit .env and set GROQ_API_KEY. Never commit the key.
+python tool_call.py
+python tool_call.py "What is an API?"
+python tool_call.py "Look up MFA in my project glossary."
+```
+
+The MCP server itself does **not** need a Groq key:
+
+```bash
+python mcp_server.py
+# In a second terminal with the virtual environment active:
+fastmcp list http://localhost:8000/mcp --input-schema
+fastmcp call http://localhost:8000/mcp get_lecture number=12
+fastmcp call http://localhost:8000/mcp get_security_term term=MFA
+python verify_mcp.py http://localhost:8000/mcp
+```
+
+Set `PORT` to change the local port. FastMCP Gateway imports `mcp_server.py:mcp` and manages the HTTP listener itself.
+
+## Verification and submission status
+
+- Offline suite: 17 tests passed, covering tool-loop behavior, invalid requests, data errors, and MCP discovery/calls.
+- Live course sheet: Lecture 12 returned successfully.
+- Local HTTP MCP: discovery and both tool calls verified; a missing glossary term returned an explicit error.
+- Groq model evaluations: **not run yet** because no Groq key is configured. The two tables below show predictions, not invented observations.
+- Public MCP deployment: **pending Gateway account verification**. No deployed URL is claimed yet.
+
+```bash
+python -m pytest -q
+python evaluate.py --update-readme
+```
+
+`evaluate.py` runs all ten questions against Groq, saves the actual model answers, arguments, and tool results in `evaluation_results.json`, and fills both README tables. A mismatch or API failure produces a nonzero exit status. Review the answers and results as well as the tool selection before submitting.
+
+## Deploy this fork on FastMCP Gateway
+
+1. Sign in at [FastMCP Gateway](https://horizon.prefect.io), verify your email, and connect GitHub if requested.
+2. Select **vipinchenthamara/c8-tools**, branch **main**.
+3. Use entrypoint **mcp_server.py:mcp**. Dependencies are detected from `requirements.txt`.
+4. For the assignment's public read-only endpoint, choose authentication off. The server exposes only the course sheet and study glossary; do not add private data to a public endpoint.
+5. Deploy, copy the real `https://...fastmcp.app/mcp` URL, and verify it:
+
+```bash
+python verify_mcp.py https://YOUR-SERVER.fastmcp.app/mcp
+fastmcp call https://YOUR-SERVER.fastmcp.app/mcp get_security_term term=MFA
+```
+
+Open ChatMCP on the server page and ask about Lecture 12 and an MFA glossary entry. Submit the fork link and the verified public endpoint on the LMS after the live model tables are filled.
+
+---
+
+The original practice-set instructions are retained below for reference.
+
 # Practice set 3: your first tool call, then an MCP server
 
 On the [Tool Bench](https://100x-curriculum.vercel.app/c8/module-2/lecture-11-tool-calling-and-mcp/bench) you pressed buttons. Here you write the code behind each button, on the same course sheet, then put the tool on the internet.
@@ -135,13 +201,15 @@ print("\n" + reply["content"])
 
 The model reads only the card. First fill in the middle column. Then run each question and fill in the last one.
 
+<!-- lecture-evaluation:start -->
 | Question | Should it ask for the tool? | Did it? |
 |---|---|---|
-| When is Lecture 12 of 100xEngineers Cohort 8, and what is it about? | | |
-| Which tools do we use in the seventh class? | | |
-| What is an API? | | |
-| Is session ten a combined one or separate? | | |
-| In lecture 3 of Harvard CS50, which language is taught? | | |
+| When is Lecture 12 of 100xEngineers Cohort 8, and what is it about? | get_lecture | Not run: needs Groq key |
+| Which tools do we use in the seventh class? | get_lecture | Not run: needs Groq key |
+| What is an API? | No | Not run: needs Groq key |
+| Is session ten a combined one or separate? | get_lecture | Not run: needs Groq key |
+| In lecture 3 of Harvard CS50, which language is taught? | No | Not run: needs Groq key |
+<!-- lecture-evaluation:end -->
 
 ```bash
 python tool_call.py "Which tools do we use in the seventh class?"
@@ -231,6 +299,20 @@ Do it once more with data you care about: your own Google Sheet, a CSV file, a S
 1. Write your own function next to `get_lecture`, in both files.
 2. Write its card, and five questions of your own for the table in step 6.
 3. Push, and call your new tool at the deployed address.
+
+### Custom dataset: cybersecurity study glossary
+
+`data/security_glossary.csv` is a small, project-authored study dataset with eight terms, aliases, categories, definitions, and examples. It contains no private account data. Edit the CSV to personalize it. The `get_security_term(term)` function is exposed in both Python entrypoints; shared CSV lookup logic lives in `lookups.py`. Matching ignores case and repeated whitespace and accepts aliases such as MFA and SIEM. Unknown terms return an explicit error and the available terms.
+
+<!-- glossary-evaluation:start -->
+| Question | Should it ask for the tool? | Did it? |
+|---|---|---|
+| According to my project glossary, what is MFA? Give its example. | get_security_term | Not run: needs Groq key |
+| Look up SIEM in my cybersecurity study notes. | get_security_term | Not run: needs Groq key |
+| What does the project glossary say about least privilege? | get_security_term | Not run: needs Groq key |
+| Does my project glossary contain quantum firewall? | get_security_term | Not run: needs Groq key |
+| What is 2 + 2? | No | Not run: needs Groq key |
+<!-- glossary-evaluation:end -->
 
 ## Submit it
 

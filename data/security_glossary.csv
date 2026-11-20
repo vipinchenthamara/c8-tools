@@ -1,0 +1,9 @@
+term,aliases,category,definition,example
+Multi-factor authentication,MFA|multifactor authentication|multi factor authentication,Identity,"Authentication that requires evidence from at least two different factor types: something you know, have, or are.","Signing in with a password and a hardware security key."
+Security information and event management,SIEM,Monitoring,"A system that collects and correlates security logs to help detect and investigate suspicious activity.","Correlating repeated failed sign-ins with a later successful sign-in from an unusual source."
+Least privilege,principle of least privilege,Access control,"Granting only the permissions needed for a task and only for as long as needed.","Giving a reporting account read access instead of database administrator access."
+Phishing,,Social engineering,"Deceptive messages that try to make a person disclose information or take an unsafe action.","An email impersonating a help desk and asking the recipient to enter a password on a fake page."
+Encryption,,Data protection,"Transforming readable data into ciphertext using a cryptographic algorithm and key.","Encrypting a laptop's disk to protect stored files if the device is lost."
+Vulnerability,,Risk,"A weakness that could be exploited to compromise a system or its information.","An application allowing an unauthorized user to read another user's records."
+Patch management,patching,Operations,"The process of identifying, testing, deploying and verifying software updates.","Testing a security update before deploying it to a fleet of servers."
+Incident response,IR,Operations,"An organized process for detecting, investigating, containing and recovering from security incidents.","Disabling a compromised account and investigating its recent activity."
