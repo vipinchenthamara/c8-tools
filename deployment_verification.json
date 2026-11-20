@@ -1,0 +1,42 @@
+{
+  "endpoint": "https://vipin-c8-tools.fastmcp.app/mcp",
+  "tools": [
+    "get_lecture",
+    "get_security_term"
+  ],
+  "lecture_12": {
+    "date": "Sat 14 Nov 2026",
+    "title": "12. Building with tool calling and MCP",
+    "type": "separate practical",
+    "tools": "Python, Groq, FastMCP"
+  },
+  "MFA": {
+    "term": "Multi-factor authentication",
+    "category": "Identity",
+    "definition": "Authentication that requires evidence from at least two different factor types: something you know, have, or are.",
+    "example": "Signing in with a password and a hardware security key."
+  },
+  "missing_term": {
+    "error": "No entry for 'quantum firewall' in the project glossary.",
+    "available_terms": [
+      "Multi-factor authentication",
+      "Security information and event management",
+      "Least privilege",
+      "Phishing",
+      "Encryption",
+      "Vulnerability",
+      "Patch management",
+      "Incident response"
+    ]
+  },
+  "verified_code_commit": "5dfca80c1b27af1b8f3a6d7f8685a300acf78632",
+  "authentication": "none",
+  "chatmcp": {
+    "tested": true,
+    "tools_called": [
+      "get_lecture",
+      "get_security_term"
+    ],
+    "observed": "Lecture 12 date/title/type/tools and MFA term/category/definition/example matched the tool results."
+  }
+}

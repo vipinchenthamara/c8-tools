@@ -36,7 +36,8 @@ Set `PORT` to change the local port. FastMCP Gateway imports `mcp_server.py:mcp`
 - Live course sheet: Lecture 12 returned successfully.
 - Local HTTP MCP: discovery and both tool calls verified; a missing glossary term returned an explicit error.
 - Groq model evaluations: **10/10 matched the expected tool selection**, using real Groq requests with both tool cards. Full answers, arguments, and tool results are recorded in `evaluation_results.json`. The latest answers were also reviewed against the returned data.
-- Public MCP deployment: **being configured on FastMCP Gateway**. The verified endpoint will be recorded here after deployment.
+- Public MCP deployment: **live and verified** at **https://vipin-c8-tools.fastmcp.app/mcp**, with authentication off for the assignment. An unauthenticated client discovered both tools, fetched Lecture 12 and MFA, and checked the missing-term response. See `deployment_verification.json`.
+- ChatMCP: successfully called both deployed tools and returned the Lecture 12 fields and the stored MFA definition/example.
 
 ```bash
 python -m pytest -q
@@ -44,6 +45,15 @@ python evaluate.py --update-readme
 ```
 
 `evaluate.py` runs all ten questions against Groq, saves the actual model answers, arguments, and tool results in `evaluation_results.json`, and fills both README tables. A mismatch or API failure produces a nonzero exit status. Review the answers and results as well as the tool selection before submitting.
+
+## Deployment and submission links
+
+- Fork: https://github.com/vipinchenthamara/c8-tools
+- Public MCP endpoint: https://vipin-c8-tools.fastmcp.app/mcp
+- Gateway dashboard: https://horizon.prefect.io/vipin-c8-tools/servers/vipin-c8-tools/deployments
+- Entrypoint: `mcp_server.py:mcp`; branch: `main`; authentication: off.
+
+These are the two links to submit on the LMS: the fork and the public MCP endpoint.
 
 ## Deploy this fork on FastMCP Gateway
 
